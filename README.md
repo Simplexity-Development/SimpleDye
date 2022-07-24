@@ -4,6 +4,14 @@ Did you ever feel like dyeing leather armor was a pain? Of course you didn't! Th
 
 This plugin was originally intended for use on ADHDMC.
 
+> **Note**
+> 
+> Requires [PaperMC](https://papermc.io/) or a fork of Paper (such as [Purpur](https://purpurmc.org/))
+
+> **Warning**
+> 
+> This does not work on Spigot and your server will throw errors if you try to.
+
 ## Commands
 
 `/sd simple <color>`
