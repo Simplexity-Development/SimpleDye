@@ -6,12 +6,12 @@
 
     <groupId>ADHDMC</groupId>
     <artifactId>SimpleDye</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>SimpleDye</name>
 
-    <description>Simple Dye for Leather and other dyable items.</description>
+    <description>Simple Dye for Leather and other dyeable items.</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
