@@ -4,6 +4,14 @@ Did you ever feel like dyeing leather armor was a pain? Of course you didn't! Th
 
 This plugin was originally intended for use on ADHDMC.
 
+> **Note**
+> 
+> Requires [PaperMC](https://papermc.io/) or a fork of Paper (such as [Purpur](https://purpurmc.org/))
+
+> **Warning**
+> 
+> This does not work on Spigot and your server will throw errors if you try to.
+
 ## Commands
 
 `/sd simple <color>`
@@ -14,7 +22,7 @@ This plugin was originally intended for use on ADHDMC.
 `/sd rgb <hex>`
 
 - Or decide you are too fancy for that and need specific color mixing!
-- Supports `RRGGBB` format or `#RRGGBB` but not #RGB / RGB format because you ~~~~can type out 6 characters, don't be lazy...
+- Supports `RRGGBB` format or `#RRGGBB` but not #RGB / RGB format because you can type out 6 characters, don't be lazy...
 - Requires the `simpledye.rgb` or `simpledye.*` permission ~~or you can be op, but we- never mind, I think you get the point.~~.
 
 ## Development Team
