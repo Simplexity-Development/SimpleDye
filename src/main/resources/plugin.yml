@@ -16,6 +16,7 @@ permissions:
   simpledye.*:
     description: Wildcard permission.
     usage: /<command>
+    default: op
 commands:
   sd:
     description: Simple Dyeing Command
