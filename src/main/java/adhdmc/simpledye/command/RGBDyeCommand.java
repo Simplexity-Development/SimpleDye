@@ -1,7 +1,10 @@
 package adhdmc.simpledye.command;
 
 import adhdmc.simpledye.SimpleDye;
+import adhdmc.simpledye.SimpleDyeMessages;
 import com.destroystokyo.paper.MaterialSetTag;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -11,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,28 +36,31 @@ public class RGBDyeCommand extends SubCommand {
     public void execute(CommandSender sender, String[] args) {
         // Not a Player Check
         if (!(sender instanceof Player)) {
-            // TODO: Not a player error.
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(SimpleDyeMessages.notAPlayer,
+                    Placeholder.unparsed("command", String.valueOf(args))));
             return;
         }
 
         // No Permissions Check
         if (!sender.hasPermission("simpledye.rgb")) {
-            // TODO: No permission error.
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(SimpleDyeMessages.permissionDenied));
             return;
         }
 
         // No Arguments Check
         if (args.length == 0) {
-            // TODO: No arguments error.
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(SimpleDyeMessages.noArguments));
             return;
         }
 
         Player player = (Player) sender;
         ItemStack mainHandItem = player.getInventory().getItemInMainHand();
+        String heldItemString = mainHandItem.getType().name().toLowerCase(Locale.ROOT);
 
         // Invalid Item Check
         if (!RGB_COLORABLE.isTagged(mainHandItem)) {
-            // TODO: Cannot be colored error.
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(SimpleDyeMessages.cannotRGBColor,
+                    Placeholder.unparsed("helditem", heldItemString)));
             return;
         }
 
@@ -61,7 +68,8 @@ public class RGBDyeCommand extends SubCommand {
 
         // Invalid Hex Code Check
         if (!matcher.find()) {
-            // TODO: Invalid hex error.
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(SimpleDyeMessages.invalidRGBColor,
+                    Placeholder.unparsed("arg", args[0])));
             return;
         }
 
@@ -73,7 +81,10 @@ public class RGBDyeCommand extends SubCommand {
         LeatherArmorMeta meta = (LeatherArmorMeta) mainHandItem.getItemMeta();
         meta.setColor(Color.fromRGB(red, green, blue));
         mainHandItem.setItemMeta(meta);
-        // TODO: Output colored text to player chat.
+        sender.sendMessage(MiniMessage.miniMessage().deserialize(SimpleDyeMessages.dyeSuccessSimple,
+                Placeholder.unparsed("helditem", heldItemString),
+                Placeholder.parsed("colortype", "<"+args[0]+">"),
+                Placeholder.unparsed("color", args[0])));
 
     }
 

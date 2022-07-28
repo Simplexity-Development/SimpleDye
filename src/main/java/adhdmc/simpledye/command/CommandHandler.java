@@ -1,5 +1,9 @@
 package adhdmc.simpledye.command;
 
+import adhdmc.simpledye.SimpleDye;
+import adhdmc.simpledye.SimpleDyeMessages;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,7 +24,7 @@ public class CommandHandler implements CommandExecutor, TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args == null || args.length == 0) {
-            // TODO: Implement default response.
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(SimpleDyeMessages.defaultResponse, Placeholder.unparsed("version", String.valueOf(SimpleDye.version))));
             return true;
         }
 
@@ -28,7 +32,7 @@ public class CommandHandler implements CommandExecutor, TabExecutor {
         if (subCommands.containsKey(subcommand)) {
             subCommands.get(subcommand).execute(sender, Arrays.copyOfRange(args, 1, args.length));
         } else {
-            // TODO: Invalid Command Message
+            sender.sendMessage(MiniMessage.miniMessage().deserialize(SimpleDyeMessages.invalidCommand, Placeholder.unparsed("arg", args[0])));
         }
         return true;
     }
