@@ -14,7 +14,7 @@ public class CommandHandler implements CommandExecutor, TabExecutor {
     public CommandHandler() {
         subCommands = new HashMap<>();
         subCommands.put("rgb", new RGBDyeCommand());
-        subCommands.put("simple", new SimpleDyeCommand());
+        subCommands.put("basic", new SimpleDyeCommand());
     }
 
     @Override

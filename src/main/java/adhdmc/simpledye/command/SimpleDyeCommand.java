@@ -2,7 +2,6 @@ package adhdmc.simpledye.command;
 
 import adhdmc.simpledye.SimpleDye;
 import com.destroystokyo.paper.MaterialSetTag;
-import com.destroystokyo.paper.MaterialTags;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -19,7 +18,7 @@ import java.util.Locale;
 public class SimpleDyeCommand extends SubCommand {
 
     private static List<String> colorStrings;
-    private static final MaterialSetTag RGB_COLORABLE = new MaterialSetTag(new NamespacedKey(SimpleDye.getPlugin(), "rgb_colorable"))
+    private static final MaterialSetTag RGB_COLORABLE = new MaterialSetTag(new NamespacedKey(SimpleDye.getInstance(), "rgb_colorable"))
             .add(Material.LEATHER_BOOTS)
             .add(Material.LEATHER_LEGGINGS)
             .add(Material.LEATHER_CHESTPLATE)

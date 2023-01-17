@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 public class RGBDyeCommand extends SubCommand {
 
     private static final Pattern pattern = Pattern.compile("#?([a-fA-F0-9]{6})");
-    private static final MaterialSetTag RGB_COLORABLE = new MaterialSetTag(new NamespacedKey(SimpleDye.getPlugin(), "rgb_colorable"))
+    private static final MaterialSetTag RGB_COLORABLE = new MaterialSetTag(new NamespacedKey(SimpleDye.getInstance(), "rgb_colorable"))
             .add(Material.LEATHER_BOOTS)
             .add(Material.LEATHER_LEGGINGS)
             .add(Material.LEATHER_CHESTPLATE)
