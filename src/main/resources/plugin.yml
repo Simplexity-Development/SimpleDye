@@ -16,6 +16,9 @@ permissions:
     description: Allow rgb dyeing of leather armor using hex colors.
     usage: /<command> rgb [#RRGGBB|RRGGBB]
     default: op
+  sd.dye.*:
+    description: Wildcard permission for dye perms
+    default: op
   sd.*:
     description: Wildcard permission.
     usage: /<command>
