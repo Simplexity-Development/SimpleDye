@@ -1,12 +1,13 @@
 package adhdmc.simpledye.command;
 
 import adhdmc.simpledye.SimpleDye;
+import adhdmc.simpledye.util.SDColor;
 import adhdmc.simpledye.util.SDMessage;
 import adhdmc.simpledye.util.SDPerm;
 import com.destroystokyo.paper.MaterialSetTag;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import org.bukkit.Color;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
@@ -14,15 +15,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class RGBDyeCommand extends SubCommand {
+public class BasicDyeCommand extends SubCommand {
     MiniMessage miniMessage = SimpleDye.getMiniMessage();
 
-    private static final Pattern pattern = Pattern.compile("#?([a-fA-F0-9]{6})");
+    private static List<String> colorStrings;
     private static final MaterialSetTag RGB_COLORABLE = new MaterialSetTag(new NamespacedKey(SimpleDye.getInstance(), "rgb_colorable"))
             .add(Material.LEATHER_BOOTS)
             .add(Material.LEATHER_LEGGINGS)
@@ -30,8 +30,13 @@ public class RGBDyeCommand extends SubCommand {
             .add(Material.LEATHER_HELMET)
             .add(Material.LEATHER_HORSE_ARMOR);
 
-    public RGBDyeCommand() {
-        super("rgb", "Allows dying with RGB Colors represented in Hex.", "/sd rgb <hex>");
+    public BasicDyeCommand() {
+        super("basic", "Allows dying with Simple Colors represented by names.", "/sd simple <color>");
+        List<String> colorStrings = new ArrayList<>();
+    for (SDColor color : SDColor.values()) {
+            colorStrings.add(color.getColor());
+        }
+        BasicDyeCommand.colorStrings = colorStrings;
     }
 
     @Override
@@ -44,7 +49,7 @@ public class RGBDyeCommand extends SubCommand {
         }
 
         // No Permissions Check
-        if (!sender.hasPermission(SDPerm.DYE_RGB_PERM.getPerm())) {
+        if (!sender.hasPermission(SDPerm.DYE_BASIC_PERM.getPerm())) {
             sender.sendMessage(miniMessage.deserialize(SDMessage.ERROR_NO_PERMISSION.getMessage(),
                     Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage())));
             return;
@@ -62,39 +67,38 @@ public class RGBDyeCommand extends SubCommand {
 
         // Invalid Item Check
         if (!RGB_COLORABLE.isTagged(mainHandItem)) {
-            sender.sendMessage(miniMessage.deserialize(SDMessage.ERROR_ITEM_NOT_HEX_DYABLE.getMessage(),
+            player.sendMessage(miniMessage.deserialize(SDMessage.ERROR_ITEM_NOT_BASIC_DYABLE.getMessage(),
                     Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage()),
                     Placeholder.parsed("item", mainHandItem.getType().toString().toLowerCase(Locale.ROOT))));
             return;
         }
 
-        Matcher matcher = pattern.matcher(args[0]);
+        String colorArg = args[0].toLowerCase(Locale.ROOT);
 
-        // Invalid Hex Code Check
-        if (!matcher.find()) {
-            sender.sendMessage(miniMessage.deserialize(SDMessage.ERROR_INVALID_HEX_CODE.getMessage(),
+
+        // Invalid Color Check
+        if (!colorStrings.contains(colorArg)) {
+            player.sendMessage(miniMessage.deserialize(SDMessage.ERROR_INVALID_DYE_COLOR.getMessage(),
                     Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage()),
                     Placeholder.parsed("input", args[0])));
             return;
         }
+        String colorArgCaps = colorArg.toUpperCase(Locale.ENGLISH);
+        String hexColor = SDColor.valueOf(colorArgCaps).getMsgColor();
 
         // Execute Request
-        String hex = matcher.group(0);
-        String hexTag = "<" + hex + ">";
-        int red = Integer.parseInt(hex.substring(1,3), 16);
-        int green = Integer.parseInt(hex.substring(3,5), 16);
-        int blue = Integer.parseInt(hex.substring(5,7), 16);
         LeatherArmorMeta meta = (LeatherArmorMeta) mainHandItem.getItemMeta();
-        meta.setColor(Color.fromRGB(red, green, blue));
+        meta.setColor(DyeColor.valueOf(colorArg.toUpperCase(Locale.ROOT)).getColor());
         mainHandItem.setItemMeta(meta);
-        sender.sendMessage(miniMessage.deserialize(SDMessage.COMMAND_OUTPUT_RGB_DYE_SUCCESS.getMessage(),
+        player.sendMessage(miniMessage.deserialize(SDMessage.COMMAND_OUTPUT_BASIC_DYE_SUCCESS.getMessage(),
                 Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage()),
-                Placeholder.parsed("color", hexTag),
-                Placeholder.unparsed("color_name", hex)));
+                Placeholder.parsed("item", mainHandItem.getType().toString().toLowerCase(Locale.ROOT)),
+                Placeholder.parsed("color", hexColor),
+                Placeholder.parsed("color_name", colorArg)));
     }
 
     @Override
     public List<String> getSubcommandArguments(CommandSender sender, String[] args) {
-        return null;
+        return colorStrings;
     }
 }

@@ -5,15 +5,18 @@ api-version: 1.19
 authors: [ Peashooter101, Rhythmic ]
 description: Simple Dye for Leather and other dyable items.
 permissions:
-  simpledye.simple:
+  sd.reload:
+    description: Allow the player to reload configuration
+    default: op
+  sd.dye.basic:
     description: Allow simple dyeing of leather armor.
     usage: /<command> simple [color]
     default: op
-  simpledye.rgb:
+  sd.dye.rgb:
     description: Allow rgb dyeing of leather armor using hex colors.
     usage: /<command> rgb [#RRGGBB|RRGGBB]
     default: op
-  simpledye.*:
+  sd.*:
     description: Wildcard permission.
     usage: /<command>
     default: op
@@ -22,5 +25,9 @@ commands:
     description: Simple Dyeing Command
     aliases:
       - simpledye
+      - dye
     permission-message: You do not have permission.
     usage: /<command> [simple|rgb]
+  sdreload:
+    description: Reloads SimpleDye configuration
+    permission: simpledye.reload
