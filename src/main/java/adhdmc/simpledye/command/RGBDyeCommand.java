@@ -87,10 +87,9 @@ public class RGBDyeCommand extends SubCommand {
         LeatherArmorMeta meta = (LeatherArmorMeta) mainHandItem.getItemMeta();
         meta.setColor(Color.fromRGB(red, green, blue));
         mainHandItem.setItemMeta(meta);
-        sender.sendMessage(miniMessage.deserialize(SDMessage.COMMAND_OUTPUT_RGB_DYE_SUCCESS.getMessage(),
+        sender.sendMessage(miniMessage.deserialize(SDMessage.COMMAND_OUTPUT_DYE_SUCCESS.getMessage(),
                 Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage()),
-                Placeholder.parsed("color", hexTag),
-                Placeholder.unparsed("color_name", hex)));
+                Placeholder.parsed("color", hexTag)));
     }
 
     @Override

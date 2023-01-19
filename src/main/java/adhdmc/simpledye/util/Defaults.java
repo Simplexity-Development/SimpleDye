@@ -16,8 +16,7 @@ public class Defaults {
         config.addDefault("error-item-not-hex-dyable", "<plugin_prefix> <red>Sorry, <item> is not dyable with a hex code. Please hold a dyable item and try again");
         config.addDefault("error-invalid-hex-code", "<plugin_prefix> <red>Sorry, <input> is not a valid hex code, please use the <yellow>#ABC123</yellow> format for hex codes");
         config.addDefault("error-invalid-dye-color", "<plugin_prefix> <red>Sorry, <input> is not one of the named dye colors. Please check your spelling and try again");
-        config.addDefault("command-output-basic-dye-success", "<plugin_prefix> <color><color_name> <green>dye successfully applied");
-        config.addDefault("command-output-rgb-dye-success", "<plugin_prefix> <color><color_name> <green>colored dye successfully applied");
+        config.addDefault("command-output-dye-success", "<plugin_prefix> <color>⬛⬛⬛ <green>dye successfully applied");
         config.addDefault("command-output-default", "<plugin_prefix> <gray>Please do <aqua>/dye</aqua> <<blue>basic</blue>|<blue>rgb</blue>> <<yellow>color</yellow>|<yellow>#abc123</yellow>>");
         config.addDefault("config-reloaded", "<plugin_prefix> <gold>Simple Dye Config reloaded!");
     }

@@ -13,8 +13,7 @@ public enum SDMessage {
     ERROR_ITEM_NOT_HEX_DYABLE("<plugin_prefix> <red>Sorry, <item> is not dyable with a hex code. Please hold a dyable item and try again"),
     ERROR_INVALID_HEX_CODE("<plugin_prefix> <red>Sorry, <input> is not a valid hex code, please use the <yellow>#ABC123</yellow> format for hex codes"),
     ERROR_INVALID_DYE_COLOR("<plugin_prefix> <red>Sorry, <input> is not one of the named dye colors. Please check your spelling and try again"),
-    COMMAND_OUTPUT_BASIC_DYE_SUCCESS("<plugin_prefix> <color><color_name> <green>dye successfully applied"),
-    COMMAND_OUTPUT_RGB_DYE_SUCCESS("<plugin_prefix> <color><color_name> <green>colored dye successfully applied"),
+    COMMAND_OUTPUT_DYE_SUCCESS("<plugin_prefix> <color>⬛⬛⬛ <green>dye successfully applied"),
     COMMAND_OUTPUT_DEFAULT("<plugin_prefix> <gray>Please do <aqua>/dye</aqua> <<blue>basic</blue>|<blue>rgb</blue>> <<yellow>color</yellow>|<yellow>#abc123</yellow>>"),
     CONFIG_RELOADED("<plugin_prefix> <gold>Simple Dye Config reloaded!");
     String message;
@@ -40,8 +39,7 @@ public enum SDMessage {
         ERROR_ITEM_NOT_HEX_DYABLE.setMessage(config.getString("error-item-not-hex-dyable"));
         ERROR_INVALID_HEX_CODE.setMessage(config.getString("error-invalid-hex-code"));
         ERROR_INVALID_DYE_COLOR.setMessage(config.getString("error-invalid-dye-color"));
-        COMMAND_OUTPUT_BASIC_DYE_SUCCESS.setMessage(config.getString("command-output-basic-dye-success"));
-        COMMAND_OUTPUT_RGB_DYE_SUCCESS.setMessage(config.getString("command-output-rgb-dye-success"));
+        COMMAND_OUTPUT_DYE_SUCCESS.setMessage(config.getString("command-output-dye-success"));
         COMMAND_OUTPUT_DEFAULT.setMessage(config.getString("command-output-default"));
         CONFIG_RELOADED.setMessage(config.getString("config-reloaded"));
     }

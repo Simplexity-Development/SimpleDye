@@ -90,11 +90,9 @@ public class BasicDyeCommand extends SubCommand {
         LeatherArmorMeta meta = (LeatherArmorMeta) mainHandItem.getItemMeta();
         meta.setColor(DyeColor.valueOf(colorArg.toUpperCase(Locale.ROOT)).getColor());
         mainHandItem.setItemMeta(meta);
-        player.sendMessage(miniMessage.deserialize(SDMessage.COMMAND_OUTPUT_BASIC_DYE_SUCCESS.getMessage(),
+        player.sendMessage(miniMessage.deserialize(SDMessage.COMMAND_OUTPUT_DYE_SUCCESS.getMessage(),
                 Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage()),
-                Placeholder.parsed("item", mainHandItem.getType().toString().toLowerCase(Locale.ROOT)),
-                Placeholder.parsed("color", hexColor),
-                Placeholder.parsed("color_name", colorArg)));
+                Placeholder.parsed("color", hexColor)));
     }
 
     @Override

@@ -8,7 +8,6 @@ error-item-not-basic-dyable: "<plugin_prefix> <red>Sorry, <item> is not dyable. 
 error-item-not-hex-dyable: "<plugin_prefix> <red>Sorry, <item> is not dyable with a hex code. Please hold a dyable item and try again"
 error-invalid-hex-code: "<plugin_prefix> <red>Sorry, <input> is not a valid hex code, please use the <yellow>#ABC123</yellow> format for hex codes"
 error-invalid-dye-color: "<plugin_prefix> <red>Sorry, <input> is not one of the named dye colors. Please check your spelling and try again"
-command-output-basic-dye-success: "<plugin_prefix> <color><color_name> <green>dye successfully applied"
-command-output-rgb-dye-success: "<plugin_prefix> <color><color_name> <green>colored dye successfully applied"
+command-output-dye-success: "<plugin_prefix> <color>⬛⬛⬛ <green>dye successfully applied"
 command-output-default: "<plugin_prefix> <gray>Please do <aqua>/dye</aqua> <<blue>basic</blue>|<blue>rgb</blue>> <<yellow>color</yellow>|<yellow>#abc123</yellow>>"
 config-reloaded: "<plugin_prefix> <gold>Simple Dye Config reloaded!"
