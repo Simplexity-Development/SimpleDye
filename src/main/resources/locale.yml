@@ -1,0 +1,15 @@
+#locale
+plugin-prefix: "<white>[<#ff6969>S<#ffb169>i<#fff569>m<#c3ff69>p<#82ff69>l<#69ff98>e<#69f5ff>D<#6987ff>y<#7869ff>e<reset><white>]</white> <gray>»</gray>"
+error:
+  not-a-player: "<red>Sorry, only a player can run this command!</red>"
+  no-permission: "<red>Sorry, you do not have permission to use this command</red>"
+  invalid-command: "<red>Sorry, the command or arguments that you provided were invalid. Please check your spelling and/or usage and try again</red>"
+  no-arguments: "<red>Sorry, you must provide an argument. Please check your usage and try again</red>"
+  item-not-basic-dyable: "<red>Sorry, <item> is not dyable. Please hold a dyable item and try again</red>"
+  item-not-hex-dyable: "<red>Sorry, <item> is not dyable with a hex code. Please hold a dyable item and try again</red>"
+  invalid-hex-code: "<red>Sorry, <input> is not a valid hex code, please use the <yellow>#ABC123</yellow> format for hex codes</red>"
+  invalid-dye-color: "<red>Sorry, <input> is not one of the named dye colors. Please check your spelling and try again</red>"
+command-output:
+  dye-success: "<color>⬛⬛⬛ <green>dye successfully applied"
+  default: "<gray>Please do <aqua>/dye</aqua> <<blue>basic</blue>|<blue>rgb</blue>> <<yellow>color</yellow>|<yellow>#abc123</yellow>></gray>"
+  config-reloaded: "<gold>Simple Dye Config reloaded!</gold>"

@@ -1,8 +1,9 @@
-package adhdmc.simpledye.command;
+package simplexity.simpledye.command;
 
-import adhdmc.simpledye.SimpleDye;
-import adhdmc.simpledye.util.SDMessage;
-import adhdmc.simpledye.util.SDPerm;
+import simplexity.simpledye.config.ConfigHandler;
+import simplexity.simpledye.config.LocaleHandler;
+import simplexity.simpledye.SimpleDye;
+import simplexity.simpledye.util.SDPerm;
 import com.destroystokyo.paper.MaterialSetTag;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -23,12 +24,6 @@ public class RGBDyeCommand extends SubCommand {
     MiniMessage miniMessage = SimpleDye.getMiniMessage();
 
     private static final Pattern pattern = Pattern.compile("#?([a-fA-F0-9]{6})");
-    private static final MaterialSetTag RGB_COLORABLE = new MaterialSetTag(new NamespacedKey(SimpleDye.getInstance(), "rgb_colorable"))
-            .add(Material.LEATHER_BOOTS)
-            .add(Material.LEATHER_LEGGINGS)
-            .add(Material.LEATHER_CHESTPLATE)
-            .add(Material.LEATHER_HELMET)
-            .add(Material.LEATHER_HORSE_ARMOR);
 
     public RGBDyeCommand() {
         super("rgb", "Allows dying with RGB Colors represented in Hex.", "/sd rgb <hex>");
@@ -36,24 +31,22 @@ public class RGBDyeCommand extends SubCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        String pluginPrefix = LocaleHandler.getInstance().getPluginPrefix();
         // Not a Player Check
         if (!(sender instanceof Player)) {
-            sender.sendMessage(miniMessage.deserialize(SDMessage.ERROR_NOT_A_PLAYER.getMessage(),
-                    Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage())));
+            sender.sendMessage(miniMessage.deserialize(pluginPrefix + LocaleHandler.getInstance().getNotAPlayer()));
             return;
         }
 
         // No Permissions Check
         if (!sender.hasPermission(SDPerm.DYE_RGB_PERM.getPerm())) {
-            sender.sendMessage(miniMessage.deserialize(SDMessage.ERROR_NO_PERMISSION.getMessage(),
-                    Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage())));
+            sender.sendMessage(pluginPrefix + LocaleHandler.getInstance().getNoPermission());
             return;
         }
 
         // No Arguments Check
         if (args.length == 0) {
-            sender.sendMessage(miniMessage.deserialize(SDMessage.ERROR_NO_ARGUMENTS.getMessage(),
-                    Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage())));
+            sender.sendMessage(pluginPrefix + LocaleHandler.getInstance().getNoArguments());
             return;
         }
 
@@ -61,9 +54,8 @@ public class RGBDyeCommand extends SubCommand {
         ItemStack mainHandItem = player.getInventory().getItemInMainHand();
 
         // Invalid Item Check
-        if (!RGB_COLORABLE.isTagged(mainHandItem)) {
-            sender.sendMessage(miniMessage.deserialize(SDMessage.ERROR_ITEM_NOT_HEX_DYABLE.getMessage(),
-                    Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage()),
+        if (!ConfigHandler.getInstance().getHexDyables().contains(mainHandItem.getType())) {
+            sender.sendMessage(miniMessage.deserialize(pluginPrefix + LocaleHandler.getInstance().getItemNotHexDyable(),
                     Placeholder.parsed("item", mainHandItem.getType().toString().toLowerCase(Locale.ROOT))));
             return;
         }
@@ -72,8 +64,7 @@ public class RGBDyeCommand extends SubCommand {
 
         // Invalid Hex Code Check
         if (!matcher.find()) {
-            sender.sendMessage(miniMessage.deserialize(SDMessage.ERROR_INVALID_HEX_CODE.getMessage(),
-                    Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage()),
+            sender.sendMessage(miniMessage.deserialize(pluginPrefix + LocaleHandler.getInstance().getInvalidHexCode(),
                     Placeholder.parsed("input", args[0])));
             return;
         }
@@ -87,8 +78,7 @@ public class RGBDyeCommand extends SubCommand {
         LeatherArmorMeta meta = (LeatherArmorMeta) mainHandItem.getItemMeta();
         meta.setColor(Color.fromRGB(red, green, blue));
         mainHandItem.setItemMeta(meta);
-        sender.sendMessage(miniMessage.deserialize(SDMessage.COMMAND_OUTPUT_DYE_SUCCESS.getMessage(),
-                Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage()),
+        sender.sendMessage(miniMessage.deserialize(pluginPrefix + LocaleHandler.getInstance().getOutputDyeSuccess(),
                 Placeholder.parsed("color", hexTag)));
     }
 

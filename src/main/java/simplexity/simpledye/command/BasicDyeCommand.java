@@ -1,19 +1,17 @@
-package adhdmc.simpledye.command;
+package simplexity.simpledye.command;
 
-import adhdmc.simpledye.SimpleDye;
-import adhdmc.simpledye.util.SDColor;
-import adhdmc.simpledye.util.SDMessage;
-import adhdmc.simpledye.util.SDPerm;
-import com.destroystokyo.paper.MaterialSetTag;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.DyeColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import simplexity.simpledye.SimpleDye;
+import simplexity.simpledye.config.ConfigHandler;
+import simplexity.simpledye.config.LocaleHandler;
+import simplexity.simpledye.util.SDColor;
+import simplexity.simpledye.util.SDPerm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +21,11 @@ public class BasicDyeCommand extends SubCommand {
     MiniMessage miniMessage = SimpleDye.getMiniMessage();
 
     private static List<String> colorStrings;
-    private static final MaterialSetTag RGB_COLORABLE = new MaterialSetTag(new NamespacedKey(SimpleDye.getInstance(), "rgb_colorable"))
-            .add(Material.LEATHER_BOOTS)
-            .add(Material.LEATHER_LEGGINGS)
-            .add(Material.LEATHER_CHESTPLATE)
-            .add(Material.LEATHER_HELMET)
-            .add(Material.LEATHER_HORSE_ARMOR);
 
     public BasicDyeCommand() {
         super("basic", "Allows dying with Simple Colors represented by names.", "/sd simple <color>");
         List<String> colorStrings = new ArrayList<>();
-    for (SDColor color : SDColor.values()) {
+        for (SDColor color : SDColor.values()) {
             colorStrings.add(color.getColor());
         }
         BasicDyeCommand.colorStrings = colorStrings;
@@ -41,24 +33,22 @@ public class BasicDyeCommand extends SubCommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        String pluginPrefix = LocaleHandler.getInstance().getPluginPrefix();
         // Not a Player Check
         if (!(sender instanceof Player)) {
-            sender.sendMessage(miniMessage.deserialize(SDMessage.ERROR_NOT_A_PLAYER.getMessage(),
-                    Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage())));
+            sender.sendMessage(miniMessage.deserialize(pluginPrefix + LocaleHandler.getInstance().getNotAPlayer()));
             return;
         }
 
         // No Permissions Check
         if (!sender.hasPermission(SDPerm.DYE_BASIC_PERM.getPerm())) {
-            sender.sendMessage(miniMessage.deserialize(SDMessage.ERROR_NO_PERMISSION.getMessage(),
-                    Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage())));
+            sender.sendMessage(pluginPrefix + LocaleHandler.getInstance().getNoPermission());
             return;
         }
 
         // No Arguments Check
         if (args.length == 0) {
-            sender.sendMessage(miniMessage.deserialize(SDMessage.ERROR_NO_ARGUMENTS.getMessage(),
-                    Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage())));
+            sender.sendMessage(pluginPrefix + LocaleHandler.getInstance().getNoArguments());
             return;
         }
 
@@ -66,9 +56,8 @@ public class BasicDyeCommand extends SubCommand {
         ItemStack mainHandItem = player.getInventory().getItemInMainHand();
 
         // Invalid Item Check
-        if (!RGB_COLORABLE.isTagged(mainHandItem)) {
-            player.sendMessage(miniMessage.deserialize(SDMessage.ERROR_ITEM_NOT_BASIC_DYABLE.getMessage(),
-                    Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage()),
+        if (!ConfigHandler.getInstance().getBasicDyables().contains(mainHandItem.getType())) {
+            player.sendMessage(miniMessage.deserialize(pluginPrefix + LocaleHandler.getInstance().getItemNotDyable(),
                     Placeholder.parsed("item", mainHandItem.getType().toString().toLowerCase(Locale.ROOT))));
             return;
         }
@@ -78,8 +67,7 @@ public class BasicDyeCommand extends SubCommand {
 
         // Invalid Color Check
         if (!colorStrings.contains(colorArg)) {
-            player.sendMessage(miniMessage.deserialize(SDMessage.ERROR_INVALID_DYE_COLOR.getMessage(),
-                    Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage()),
+            player.sendMessage(miniMessage.deserialize(pluginPrefix + LocaleHandler.getInstance().getInvalidDyeColor(),
                     Placeholder.parsed("input", args[0])));
             return;
         }
@@ -90,8 +78,7 @@ public class BasicDyeCommand extends SubCommand {
         LeatherArmorMeta meta = (LeatherArmorMeta) mainHandItem.getItemMeta();
         meta.setColor(DyeColor.valueOf(colorArg.toUpperCase(Locale.ROOT)).getColor());
         mainHandItem.setItemMeta(meta);
-        player.sendMessage(miniMessage.deserialize(SDMessage.COMMAND_OUTPUT_DYE_SUCCESS.getMessage(),
-                Placeholder.parsed("plugin_prefix", SDMessage.PLUGIN_PREFIX.getMessage()),
+        player.sendMessage(miniMessage.deserialize(pluginPrefix + LocaleHandler.getInstance().getOutputDyeSuccess(),
                 Placeholder.parsed("color", hexColor)));
     }
 

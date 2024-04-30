@@ -1,12 +1,11 @@
-package adhdmc.simpledye;
+package simplexity.simpledye;
 
-import adhdmc.simpledye.command.CommandHandler;
-import adhdmc.simpledye.command.ReloadCommand;
-import adhdmc.simpledye.util.Defaults;
-import adhdmc.simpledye.util.SDMessage;
+import simplexity.simpledye.command.CommandHandler;
+import simplexity.simpledye.command.ReloadCommand;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import simplexity.simpledye.config.ConfigHandler;
 
 public final class SimpleDye extends JavaPlugin {
 
@@ -18,9 +17,8 @@ public final class SimpleDye extends JavaPlugin {
         instance = this;
         this.getCommand("sd").setExecutor(new CommandHandler());
         this.getCommand("sdreload").setExecutor(new ReloadCommand());
-        Defaults.setConfigDefaults();
         saveDefaultConfig();
-        SDMessage.reloadMessages();
+        ConfigHandler.getInstance().reloadConfig();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package adhdmc.simpledye.util;
+package simplexity.simpledye.util;
 
 import org.bukkit.permissions.Permission;
 
