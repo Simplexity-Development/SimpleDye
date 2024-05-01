@@ -1,19 +1,16 @@
 package simplexity.simpledye.command;
 
-import simplexity.simpledye.config.ConfigHandler;
-import simplexity.simpledye.config.LocaleHandler;
-import simplexity.simpledye.SimpleDye;
-import simplexity.simpledye.util.SDPerm;
-import com.destroystokyo.paper.MaterialSetTag;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import simplexity.simpledye.SimpleDye;
+import simplexity.simpledye.config.ConfigHandler;
+import simplexity.simpledye.config.LocaleHandler;
+import simplexity.simpledye.util.SDPerm;
 
 import java.util.List;
 import java.util.Locale;
@@ -33,7 +30,7 @@ public class RGBDyeCommand extends SubCommand {
     public void execute(CommandSender sender, String[] args) {
         String pluginPrefix = LocaleHandler.getInstance().getPluginPrefix();
         // Not a Player Check
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage(miniMessage.deserialize(pluginPrefix + LocaleHandler.getInstance().getNotAPlayer()));
             return;
         }
@@ -50,7 +47,6 @@ public class RGBDyeCommand extends SubCommand {
             return;
         }
 
-        Player player = (Player) sender;
         ItemStack mainHandItem = player.getInventory().getItemInMainHand();
 
         // Invalid Item Check
@@ -71,10 +67,17 @@ public class RGBDyeCommand extends SubCommand {
 
         // Execute Request
         String hex = matcher.group(0);
-        String hexTag = "<" + hex + ">";
-        int red = Integer.parseInt(hex.substring(1,3), 16);
-        int green = Integer.parseInt(hex.substring(3,5), 16);
-        int blue = Integer.parseInt(hex.substring(5,7), 16);
+        String hexTag;
+        if (hex.startsWith("#")) {
+            hexTag ="<" + hex + ">";
+            int length = hex.length();
+            hex = hex.substring(1, length);
+        } else {
+            hexTag = "<#" + hex + ">";
+        }
+        int red = Integer.parseInt(hex.substring(0,2), 16);
+        int green = Integer.parseInt(hex.substring(2,4), 16);
+        int blue = Integer.parseInt(hex.substring(4,6), 16);
         LeatherArmorMeta meta = (LeatherArmorMeta) mainHandItem.getItemMeta();
         meta.setColor(Color.fromRGB(red, green, blue));
         mainHandItem.setItemMeta(meta);
